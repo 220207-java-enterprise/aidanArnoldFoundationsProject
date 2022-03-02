@@ -1,7 +1,9 @@
 package com.revature.foundation.daos;
 
         import com.revature.foundation.models.Users;
+        import com.revature.foundation.util.connectionFactory;
         import com.revature.foundation.util.exceptions.ResourcePersistenceException;
+        import org.postgresql.core.ConnectionFactory;
 
         import java.io.*;
         import java.sql.*;
@@ -12,9 +14,9 @@ public class UsersDAO implements CrudDAO<Users> {
 
     private Connection conn;
 
-    public UsersDAO(Connection conn) {
-        this.conn = conn;
-    }
+//    public UsersDAO(Connection conn) {
+//        this.conn = conn;
+//    }
 
     public Users findUserByUsername(String username) {
         return null;
@@ -33,13 +35,15 @@ public class UsersDAO implements CrudDAO<Users> {
 
     @Override
     public void save(Users newUser) {
-        try {
+        try (Connection conn = connectionFactory.getInstance().getConnection()) {
             File usersDataFile = new File("data/users.txt");
             FileWriter dataWriter = new FileWriter(usersDataFile, true);
             dataWriter.write(newUser.toFileString() + "\n");
             dataWriter.close();
         } catch (IOException e) {
             throw new ResourcePersistenceException("An error occurred when accessing the data file.");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -48,7 +52,7 @@ public class UsersDAO implements CrudDAO<Users> {
         String query = "select * from ers_users where user_id = ?";
         Users user = new Users();
 
-        try {
+        try (Connection conn = connectionFactory.getInstance().getConnection()) {
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
@@ -79,7 +83,7 @@ public class UsersDAO implements CrudDAO<Users> {
         Users user = new Users();
 
 
-        try {
+        try (Connection conn = connectionFactory.getInstance().getConnection()) {
             PreparedStatement ps = conn.prepareStatement(queryAll);
 //            ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
@@ -114,7 +118,7 @@ public class UsersDAO implements CrudDAO<Users> {
                 "SET username = 'jakesnake2', email = 'abcd@gmail.com', password = 'pass123', given_name = 'Jake',\n" +
                 "surname = 'Snake', is_active = true, role_id = 1\n" +
                 "WHERE user_id = '" + i + "';";
-        try {
+        try (Connection conn = connectionFactory.getInstance().getConnection()) {
             PreparedStatement ps = conn.prepareStatement(queryUpdate);
             ps.executeUpdate();
 
@@ -129,7 +133,7 @@ public class UsersDAO implements CrudDAO<Users> {
         String queryDelete = "delete from ers_users where user_id = ?;";
 
 
-        try {
+        try (Connection conn = connectionFactory.getInstance().getConnection()) {
             PreparedStatement ps = conn.prepareStatement(queryDelete);
             ps.setString(1, id);
             ps.executeUpdate();

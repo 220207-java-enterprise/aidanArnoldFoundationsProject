@@ -1,13 +1,21 @@
 package com.revature.foundation.services;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 
-        import com.revature.foundation.models.Users;
-        import com.revature.foundation.daos.UsersDAO;
-        import com.revature.foundation.util.exceptions.AuthenticationException;
-        import com.revature.foundation.util.exceptions.InvalidRequestException;
+import com.revature.foundation.dtos.requests.LoginRequest;
+import com.revature.foundation.dtos.requests.NewUserRequest;
+import com.revature.foundation.dtos.responses.AppUserResponse;
+import com.revature.foundation.models.UserRoles;
+import com.revature.foundation.models.Users;
+import com.revature.foundation.daos.UsersDAO;
+import com.revature.foundation.util.exceptions.AuthenticationException;
+import com.revature.foundation.util.exceptions.InvalidRequestException;
+import com.revature.foundation.util.exceptions.ResourceConflictException;
+
 
 public class UserService {
 
@@ -18,17 +26,38 @@ public class UserService {
         this.userDAO = userDAO;
     }
 
-    public Users register(Users newUser) throws IOException {
-
-        if (!isUserValid(newUser)) {
-            throw new InvalidRequestException("Bad registration details given."); // this will halt the app
+    public List<Users> getAll() {
+        List<Users> users = userDAO.getAll();
+        List<AppUserResponse> userResponses = new ArrayList<>();
+        for (Users user : users) {
+            userResponses.add(new AppUserResponse(user));
         }
 
-        // TODO validate that the provided username and email are not already taken
+        return users;
+    }
+
+    public Users register(NewUserRequest newUserRequest) {
+
+        Users newUser = newUserRequest.extractUser();
+
+        if (!isUserValid(newUser)) {
+            throw new InvalidRequestException("Bad registration details given.");
+        }
+
+        boolean usernameAvailable = isUsernameAvailable(newUser.getUsername());
+        boolean emailAvailable = isEmailAvailable(newUser.getEmail());
+
+        if (!usernameAvailable || !emailAvailable) {
+            String msg = "The values provided for the following fields are already taken by other users: ";
+            if (!usernameAvailable) msg += "username ";
+            if (!emailAvailable) msg += "email";
+            throw new ResourceConflictException(msg);
+        }
 
         // TODO encrypt provided password before storing in the database
 
         newUser.setUserId(UUID.randomUUID().toString());
+        newUser.setRoleId(String.valueOf(new UserRoles("7c3521f5-ff75-4e8a-9913-01d15ee4dc97", "BASIC_USER"))); // All newly registered users start as BASIC_USER
         userDAO.save(newUser);
 
         return newUser;
@@ -93,4 +122,33 @@ public class UserService {
 //        return false;
     }
 
+    public boolean isUsernameAvailable(String username) {
+        if (username == null || !isUsernameValid(username)) return false;
+        return userDAO.findUserByUsername(username) == null;
+    }
+
+    public boolean isEmailAvailable(String email) {
+        if (email == null || !isEmailValid(email)) return false;
+        return userDAO.findUserByEmail(email) == null;
+    }
+
+    public Users login(LoginRequest loginRequest) {
+        String username = loginRequest.getUsername();
+        String password = loginRequest.getPassword();
+
+        if (!isUsernameValid(username) || !isPasswordValid(password)) {
+            throw new InvalidRequestException("Invalid credentials provided!");
+        }
+
+        // TODO encrypt provided password (assumes password encryption is in place) to see if it matches what is in the DB
+
+        Users authUsers = userDAO.findUserByUsernameAndPassword(username, password);
+
+        if (authUsers == null) {
+            throw new AuthenticationException();
+        }
+
+        return authUsers;
+
+    }
 }

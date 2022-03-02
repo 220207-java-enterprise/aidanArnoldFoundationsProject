@@ -43,6 +43,9 @@ public class Users {
         this.roleId = roleId;
     }
 
+    public Users(String givenName, String surname, String email, String username, String password) {
+    }
+
     public String getUserId() {
         return userId;
     }
