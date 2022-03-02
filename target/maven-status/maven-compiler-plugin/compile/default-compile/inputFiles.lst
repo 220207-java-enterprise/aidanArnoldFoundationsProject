@@ -1,4 +1,5 @@
 C:\Users\Aidan\assignments\foundations-project\aidanArnoldFoundationsProject\src\main\java\com\revature\foundation\util\exceptions\ResourceConflictException.java
+C:\Users\Aidan\assignments\foundations-project\aidanArnoldFoundationsProject\src\main\java\com\revature\foundation\dtos\requests\UpdatedUserRequest.java
 C:\Users\Aidan\assignments\foundations-project\aidanArnoldFoundationsProject\src\main\java\com\revature\foundation\services\TokenService.java
 C:\Users\Aidan\assignments\foundations-project\aidanArnoldFoundationsProject\src\main\java\com\revature\foundation\util\exceptions\AuthenticationException.java
 C:\Users\Aidan\assignments\foundations-project\aidanArnoldFoundationsProject\src\main\java\com\revature\foundation\util\exceptions\DataSourceException.java
@@ -8,16 +9,20 @@ C:\Users\Aidan\assignments\foundations-project\aidanArnoldFoundationsProject\src
 C:\Users\Aidan\assignments\foundations-project\aidanArnoldFoundationsProject\src\main\java\com\revature\foundation\dtos\responses\AppUserResponse.java
 C:\Users\Aidan\assignments\foundations-project\aidanArnoldFoundationsProject\src\main\java\com\revature\foundation\util\exceptions\InvalidRequestException.java
 C:\Users\Aidan\assignments\foundations-project\aidanArnoldFoundationsProject\src\main\java\com\revature\foundation\daos\CrudDAO.java
+C:\Users\Aidan\assignments\foundations-project\aidanArnoldFoundationsProject\src\main\java\com\revature\foundation\servlets\AdminUserUpdateServlet.java
+C:\Users\Aidan\assignments\foundations-project\aidanArnoldFoundationsProject\src\main\java\com\revature\foundation\dtos\requests\HeaderLoginRequest.java
 C:\Users\Aidan\assignments\foundations-project\aidanArnoldFoundationsProject\src\main\java\com\revature\foundation\servlets\UsersServlet.java
 C:\Users\Aidan\assignments\foundations-project\aidanArnoldFoundationsProject\src\main\java\com\revature\foundation\dtos\responses\Principal.java
 C:\Users\Aidan\assignments\foundations-project\aidanArnoldFoundationsProject\src\main\java\com\revature\foundation\services\UserService.java
 C:\Users\Aidan\assignments\foundations-project\aidanArnoldFoundationsProject\src\main\java\com\revature\foundation\util\JwtConfig.java
 C:\Users\Aidan\assignments\foundations-project\aidanArnoldFoundationsProject\src\main\java\com\revature\foundation\models\Reimbursements.java
 C:\Users\Aidan\assignments\foundations-project\aidanArnoldFoundationsProject\src\main\java\com\revature\foundation\dtos\requests\LoginRequest.java
+C:\Users\Aidan\assignments\foundations-project\aidanArnoldFoundationsProject\src\main\java\com\revature\foundation\dtos\responses\UpdatedUserReponse.java
 C:\Users\Aidan\assignments\foundations-project\aidanArnoldFoundationsProject\src\main\java\com\revature\foundation\models\ReimbursementTypes.java
 C:\Users\Aidan\assignments\foundations-project\aidanArnoldFoundationsProject\src\main\java\com\revature\foundation\daos\UsersDAO.java
 C:\Users\Aidan\assignments\foundations-project\aidanArnoldFoundationsProject\src\main\java\com\revature\foundation\Main.java
 C:\Users\Aidan\assignments\foundations-project\aidanArnoldFoundationsProject\src\main\java\com\revature\foundation\models\UserRole.java
+C:\Users\Aidan\assignments\foundations-project\aidanArnoldFoundationsProject\src\main\java\com\revature\foundation\servlets\NoLogInServlet.java
 C:\Users\Aidan\assignments\foundations-project\aidanArnoldFoundationsProject\src\main\java\com\revature\foundation\dtos\requests\NewUserRequest.java
 C:\Users\Aidan\assignments\foundations-project\aidanArnoldFoundationsProject\src\main\java\com\revature\foundation\daos\ReimbursementsDAO.java
 C:\Users\Aidan\assignments\foundations-project\aidanArnoldFoundationsProject\src\main\java\com\revature\foundation\servlets\FoundServ.java

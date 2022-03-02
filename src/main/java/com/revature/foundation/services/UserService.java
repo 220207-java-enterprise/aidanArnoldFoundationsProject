@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import com.revature.foundation.dtos.requests.LoginRequest;
 import com.revature.foundation.dtos.requests.NewUserRequest;
+import com.revature.foundation.dtos.requests.UpdatedUserRequest;
 import com.revature.foundation.dtos.responses.AppUserResponse;
 import com.revature.foundation.models.UserRole;
 import com.revature.foundation.models.Users;
@@ -33,6 +34,13 @@ public class UserService {
         }
 
         return users;
+    }
+
+    //redundant?
+    public Users updatedUser(UpdatedUserRequest updateRequest) {
+        Users updatedUser = updateRequest.extractUser();
+        userDAO.update(updatedUser);
+        return updatedUser;
     }
 
     public Users register(NewUserRequest newUserRequest) {

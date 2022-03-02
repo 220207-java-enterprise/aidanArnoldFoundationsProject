@@ -30,6 +30,9 @@ public class Users {
         this.password = password;
     }
 
+    public Users(String userId, String username, String email, String password, String givenName, String surname, String isActive, String role) {
+    }
+
     public String getUserId() {
         return userId;
     }

@@ -5,7 +5,9 @@ import com.revature.foundation.daos.UsersDAO;
 import com.revature.foundation.services.TokenService;
 import com.revature.foundation.services.UserService;
 import com.revature.foundation.servlets.AuthServlet;
+import com.revature.foundation.servlets.NoLogInServlet;
 import com.revature.foundation.servlets.UsersServlet;
+import com.revature.foundation.servlets.AdminUserUpdateServlet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,11 +32,15 @@ public class ContextLoaderListener implements ServletContextListener {
         UserService userService = new UserService(userDAO);
         UsersServlet userServlet = new UsersServlet(tokenService, userService, mapper);
         AuthServlet authServlet = new AuthServlet(tokenService, userService, mapper);
+        AdminUserUpdateServlet adminUserUpdateServlet = new AdminUserUpdateServlet(tokenService, userService, mapper);
+        NoLogInServlet noLogInServlet = new NoLogInServlet(tokenService);
 
         // Programmatic Servlet Registration
         ServletContext context = sce.getServletContext();
         context.addServlet("UserServlet", userServlet).addMapping("/users/*");
         context.addServlet("AuthServlet", authServlet).addMapping("/auth");
+        context.addServlet("AdminUserUpdateServlet", adminUserUpdateServlet).addMapping("/adminUserUpdate");
+        context.addServlet("NoLogInServlet", noLogInServlet).addMapping("/noLogInServlet");
 
     }
 

@@ -3,6 +3,7 @@ package com.revature.foundation.servlets;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.foundation.dtos.requests.NewUserRequest;
+import com.revature.foundation.dtos.requests.UpdatedUserRequest;
 import com.revature.foundation.dtos.responses.AppUserResponse;
 import com.revature.foundation.dtos.responses.Principal;
 import com.revature.foundation.dtos.responses.ResourceCreationResponse;
@@ -105,6 +106,39 @@ public class UsersServlet extends HttpServlet{
             resp.setStatus(409); // CONFLICT
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
+            resp.setStatus(500);
+        }
+
+    }
+
+    //update user endpoint. Something only an admin can do.
+    @Override
+    public void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        PrintWriter respWriter = resp.getWriter();
+
+        try {
+
+            Principal potentiallyAdmin = tokenService.extractRequesterDetails(req.getHeader("Authorization"));
+            if(!(potentiallyAdmin.getRoleId().equals("Admin"))){
+                throw new InvalidRequestException();
+            }
+
+            UpdatedUserRequest anUpdatedUserRequest = mapper.readValue(req.getInputStream(), UpdatedUserRequest.class);
+            Users updatedUser = userService.updatedUser(anUpdatedUserRequest);
+
+            resp.setStatus(201); // Succesful
+            resp.setContentType("application/json");
+            String payload = mapper.writeValueAsString(new ResourceCreationResponse(updatedUser.getUserId()));
+            respWriter.write(payload);
+
+        } catch (InvalidRequestException | DatabindException e) {
+            resp.setStatus(400); // BAD REQUEST
+            e.printStackTrace();
+        } catch (ResourceConflictException e) {
+            e.printStackTrace();
+            resp.setStatus(409); // CONFLICT
+        } catch (Exception e) {
+            e.printStackTrace(); // include for debugging purposes; ideally log it to a file
             resp.setStatus(500);
         }
 
