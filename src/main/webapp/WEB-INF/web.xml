@@ -20,4 +20,8 @@
         <url-pattern>/FoundServ</url-pattern>
     </servlet-mapping>
 
+    <listener>
+        <listener-class>com.revature.foundation.util.ContextLoaderListener</listener-class>
+    </listener>
+
 </web-app>

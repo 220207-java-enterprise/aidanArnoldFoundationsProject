@@ -15,7 +15,7 @@ public class Principal {
     public Principal(Users user) {
         this.userId = user.getUserId();
         this.username = user.getUsername();
-        this.roleId = user.getRoleId();
+        this.roleId = user.getRole().getRoleName();
     }
 
     public String getUserId() {

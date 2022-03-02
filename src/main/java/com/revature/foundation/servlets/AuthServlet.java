@@ -46,7 +46,7 @@ public class AuthServlet extends HttpServlet {
             Principal principal = new Principal(userService.login(loginRequest));
             String payload = mapper.writeValueAsString(principal);
 
-            // Stateful session management
+//             Stateful session management
 //            HttpSession httpSession = req.getSession();
 //            httpSession.setAttribute("authUser", principal);
 
@@ -57,6 +57,7 @@ public class AuthServlet extends HttpServlet {
 
 
         } catch (InvalidRequestException | DatabindException e) {
+            e.printStackTrace();
             resp.setStatus(400);
         } catch (AuthenticationException e) {
             resp.setStatus(401); // UNAUTHORIZED (no user found with provided credentials)

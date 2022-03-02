@@ -12,12 +12,16 @@
 
     <servlet>
         <servlet-name>FoundServ</servlet-name>
-        <servlet-class>com.revature.servlets.FoundServ</servlet-class>
+        <servlet-class>com.revature.foundation.servlets.FoundServ</servlet-class>
     </servlet>
 
     <servlet-mapping>
         <servlet-name>FoundServ</servlet-name>
         <url-pattern>/FoundServ</url-pattern>
     </servlet-mapping>
+
+    <listener>
+        <listener-class>com.revature.foundation.util.ContextLoaderListener</listener-class>
+    </listener>
 
 </web-app>

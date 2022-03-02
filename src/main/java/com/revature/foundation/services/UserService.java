@@ -56,7 +56,7 @@ public class UserService {
         // TODO encrypt provided password before storing in the database
 
         newUser.setUserId(UUID.randomUUID().toString());
-        newUser.setRoleId(String.valueOf(new UserRole("7c3521f5-ff75-4e8a-9913-01d15ee4dc97", "BASIC_USER"))); // All newly registered users start as BASIC_USER
+        newUser.setRole(new UserRole("7c3521f5-ff75-4e8a-9913-01d15ee4dc97", "BASIC_USER")); // All newly registered users start as BASIC_USER
         userDAO.save(newUser);
 
         return newUser;

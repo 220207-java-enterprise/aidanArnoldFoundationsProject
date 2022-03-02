@@ -19,7 +19,7 @@ public class AppUserResponse {
         this.givenName = user.getGivenName();
         this.surname = user.getSurname();
         this.username = user.getUsername();
-        this.roleId = user.getRoleId();
+        this.roleId = user.getRole().getRoleName();
     }
 
     public String getUserId() {

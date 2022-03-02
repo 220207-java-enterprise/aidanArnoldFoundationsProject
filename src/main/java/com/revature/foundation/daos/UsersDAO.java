@@ -13,16 +13,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsersDAO {
-
     // TODO attempt to centralize exception handling in service layer
-    public class UserDAO implements CrudDAO<Users> {
+    public class UsersDAO implements CrudDAO<Users> {
 
         private final String rootSelect = "SELECT " +
-                "au.id, au.first_name, au.last_name, au.email, au.username, au.password, au.role, ur.role_name " +
-                "FROM app_users au " +
-                "JOIN user_roles ur " +
-                "ON au.role = ur.id ";
+                "au.user_id, au.given_name, au.surname, au.email, au.username, au.password, au.role_id, ur.role " +
+                "FROM ers_users au " +
+                "JOIN ers_user_roles ur " +
+                "ON au.role_id = ur.role_id ";
 
         public Users findUserByUsername(String username) {
 
@@ -36,13 +34,13 @@ public class UsersDAO {
                 ResultSet rs = pstmt.executeQuery();
                 if (rs.next()) {
                     user = new Users();
-                    user.setUserId(rs.getString("id"));
-                    user.setGivenName(rs.getString("first_name"));
-                    user.setSurname(rs.getString("last_name"));
+                    user.setUserId(rs.getString("user_id"));
+                    user.setGivenName(rs.getString("given_name"));
+                    user.setSurname(rs.getString("surname"));
                     user.setEmail(rs.getString("email"));
                     user.setUsername(rs.getString("username"));
                     user.setPassword(rs.getString("password"));
-                    user.setRole(new UserRole(rs.getString("role"), rs.getString("role_name")));
+                    user.setRole(new UserRole(rs.getString("role_id"), rs.getString("role")));
                 }
 
             } catch (SQLException e) {
@@ -64,13 +62,13 @@ public class UsersDAO {
                 ResultSet rs = pstmt.executeQuery();
                 if (rs.next()) {
                     user = new Users();
-                    user.setUserId(rs.getString("id"));
-                    user.setGivenName(rs.getString("first_name"));
-                    user.setSurname(rs.getString("last_name"));
+                    user.setUserId(rs.getString("user_id"));
+                    user.setGivenName(rs.getString("given_name"));
+                    user.setSurname(rs.getString("surname"));
                     user.setEmail(rs.getString("email"));
                     user.setUsername(rs.getString("username"));
                     user.setPassword(rs.getString("password"));
-                    user.setRole(new UserRole(rs.getString("role"), rs.getString("role_name")));
+                    user.setRole(new UserRole(rs.getString("role_id"), rs.getString("role")));
                 }
 
             } catch (SQLException e) {
@@ -94,13 +92,13 @@ public class UsersDAO {
                 ResultSet rs = pstmt.executeQuery();
                 if (rs.next()) {
                     authUser = new Users();
-                    authUser.setUserId(rs.getString("id"));
-                    authUser.setGivenName(rs.getString("first_name"));
-                    authUser.setSurname(rs.getString("last_name"));
+                    authUser.setUserId(rs.getString("user_id"));
+                    authUser.setGivenName(rs.getString("given_name"));
+                    authUser.setSurname(rs.getString("surname"));
                     authUser.setEmail(rs.getString("email"));
                     authUser.setUsername(rs.getString("username"));
                     authUser.setPassword(rs.getString("password"));
-                    authUser.setRole(new UserRole(rs.getString("role"), rs.getString("role_name")));
+                    authUser.setRole(new UserRole(rs.getString("role_id"), rs.getString("role")));
                 }
 
             } catch (SQLException e) {
@@ -116,7 +114,7 @@ public class UsersDAO {
             try (Connection conn = connectionFactory.getInstance().getConnection()) {
 
                 conn.setAutoCommit(false);
-                PreparedStatement pstmt = conn.prepareStatement("INSERT INTO app_users VALUES (?, ?, ?, ?, ?, ?, ?)");
+                PreparedStatement pstmt = conn.prepareStatement("INSERT INTO ers_users VALUES (?, ?, ?, ?, ?, ?, ?)");
                 pstmt.setString(1, newUser.getUserId());
                 pstmt.setString(2, newUser.getGivenName());
                 pstmt.setString(3, newUser.getSurname());
@@ -151,13 +149,13 @@ public class UsersDAO {
                 ResultSet rs = pstmt.executeQuery();
                 if (rs.next()) {
                     user = new Users();
-                    user.setUserId(rs.getString("id"));
-                    user.setGivenName(rs.getString("first_name"));
-                    user.setSurname(rs.getString("last_name"));
+                    user.setUserId(rs.getString("user_id"));
+                    user.setGivenName(rs.getString("given_name"));
+                    user.setSurname(rs.getString("surname"));
                     user.setEmail(rs.getString("email"));
                     user.setUsername(rs.getString("username"));
                     user.setPassword(rs.getString("password"));
-                    user.setRole(new UserRole(rs.getString("role"), rs.getString("role_name")));
+                    user.setRole(new UserRole(rs.getString("role_id"), rs.getString("role")));
                 }
 
             } catch (SQLException e) {
@@ -178,13 +176,13 @@ public class UsersDAO {
                 ResultSet rs = conn.createStatement().executeQuery(rootSelect);
                 while (rs.next()) {
                     Users user = new Users();
-                    user.setUserId(rs.getString("id"));
-                    user.setGivenName(rs.getString("first_name"));
-                    user.setSurname(rs.getString("last_name"));
+                    user.setUserId(rs.getString("user_id"));
+                    user.setGivenName(rs.getString("given_name"));
+                    user.setSurname(rs.getString("surname"));
                     user.setEmail(rs.getString("email"));
                     user.setUsername(rs.getString("username"));
                     user.setPassword(rs.getString("password"));
-                    user.setRole(new UserRole(rs.getString("role"), rs.getString("role_name")));
+                    user.setRole(new UserRole(rs.getString("role_id"), rs.getString("role")));
                     users.add(user);
                 }
             } catch (SQLException e) {
@@ -199,7 +197,7 @@ public class UsersDAO {
             try (Connection conn = connectionFactory.getInstance().getConnection()) {
 
                 conn.setAutoCommit(false);
-                PreparedStatement pstmt = conn.prepareStatement("UPDATE app_users " +
+                PreparedStatement pstmt = conn.prepareStatement("UPDATE ers_users " +
                         "SET first_name = ?, " +
                         "last_name = ?, " +
                         "email = ?, " +
@@ -232,7 +230,7 @@ public class UsersDAO {
             try (Connection conn = connectionFactory.getInstance().getConnection()) {
 
                 conn.setAutoCommit(false);
-                PreparedStatement pstmt = conn.prepareStatement("DELETE FROM app_users WHERE id = ?");
+                PreparedStatement pstmt = conn.prepareStatement("DELETE FROM ers_users WHERE id = ?");
                 pstmt.setString(1, id);
 
                 int rowsInserted = pstmt.executeUpdate();
@@ -249,5 +247,3 @@ public class UsersDAO {
         }
     }
 
-
-}

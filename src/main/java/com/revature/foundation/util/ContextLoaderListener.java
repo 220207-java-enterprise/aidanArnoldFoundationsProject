@@ -20,7 +20,7 @@ public class ContextLoaderListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        logger.debug("Initializing Quizzard web application");
+        logger.debug("Initializing foundation web application");
 
         ObjectMapper mapper = new ObjectMapper();
         JwtConfig jwtConfig = new JwtConfig();
@@ -40,7 +40,7 @@ public class ContextLoaderListener implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        logger.debug("Shutting down Quizzard web application");
+        logger.debug("Shutting down foundation web application");
     }
 
 }
