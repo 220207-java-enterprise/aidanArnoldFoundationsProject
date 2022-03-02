@@ -1,1 +1,5 @@
-com\revature\servlets\FoundServ.class
+com\revature\foundation\util\ContextLoaderListener.class
+com\revature\foundation\servlets\AuthServlet.class
+com\revature\foundation\util\exceptions\ResourceConflictException.class
+com\revature\foundation\daos\ReimbursementsDAO.class
+com\revature\foundation\servlets\UsersServlet.class

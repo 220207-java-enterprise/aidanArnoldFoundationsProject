@@ -1,6 +1,5 @@
 package com.revature.foundation.services;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -9,7 +8,7 @@ import java.util.UUID;
 import com.revature.foundation.dtos.requests.LoginRequest;
 import com.revature.foundation.dtos.requests.NewUserRequest;
 import com.revature.foundation.dtos.responses.AppUserResponse;
-import com.revature.foundation.models.UserRoles;
+import com.revature.foundation.models.UserRole;
 import com.revature.foundation.models.Users;
 import com.revature.foundation.daos.UsersDAO;
 import com.revature.foundation.util.exceptions.AuthenticationException;
@@ -57,7 +56,7 @@ public class UserService {
         // TODO encrypt provided password before storing in the database
 
         newUser.setUserId(UUID.randomUUID().toString());
-        newUser.setRoleId(String.valueOf(new UserRoles("7c3521f5-ff75-4e8a-9913-01d15ee4dc97", "BASIC_USER"))); // All newly registered users start as BASIC_USER
+        newUser.setRoleId(String.valueOf(new UserRole("7c3521f5-ff75-4e8a-9913-01d15ee4dc97", "BASIC_USER"))); // All newly registered users start as BASIC_USER
         userDAO.save(newUser);
 
         return newUser;

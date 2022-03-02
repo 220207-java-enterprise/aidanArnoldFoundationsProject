@@ -14,7 +14,7 @@ public class Users {
     private String givenName;
     private String surname;
     private String isActive;
-    private String roleId;
+    private UserRole role;
 
     // TODO create a Role enum
 
@@ -22,28 +22,12 @@ public class Users {
         super(); // not required, but it bugs me personally not to have it
     }
 
-    public Users(String username, String email, String password, String givenName, String surname, String isActive, String roleId) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.givenName = givenName;
-        this.surname = surname;
-        this.isActive = isActive;
-        this.roleId = roleId;
-    }
-
-    public Users(String userId, String username, String email, String password, String givenName, String surname, String isActive, String roleId) {
-        this.userId = userId;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.givenName = givenName;
-        this.surname = surname;
-        this.isActive = isActive;
-        this.roleId = roleId;
-    }
-
     public Users(String givenName, String surname, String email, String username, String password) {
+        this.givenName = givenName;
+        this.surname = surname;
+        this.email = email;
+        this.username = username;
+        this.password = password;
     }
 
     public String getUserId() {
@@ -101,12 +85,12 @@ public class Users {
         this.isActive = isActive;
     }
 
-    public String getRoleId() {
-        return roleId;
+    public UserRole getRole() {
+        return role;
     }
 
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 
 
@@ -119,7 +103,7 @@ public class Users {
                 .append(givenName).append(":")
                 .append(surname).append(":")
                 .append(isActive).append(":")
-                .append(roleId).toString();
+                .append(role).toString();
     }
 
     @Override
@@ -127,17 +111,17 @@ public class Users {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Users appUser = (Users) o;
-        return Objects.equals(userId, appUser.userId) && Objects.equals(username, appUser.username) && Objects.equals(email, appUser.email) && Objects.equals(password, appUser.password) && Objects.equals(givenName, appUser.givenName) && Objects.equals(surname, appUser.surname) && Objects.equals(isActive, appUser.isActive) && Objects.equals(roleId, appUser.roleId);
+        return Objects.equals(userId, appUser.userId) && Objects.equals(username, appUser.username) && Objects.equals(email, appUser.email) && Objects.equals(password, appUser.password) && Objects.equals(givenName, appUser.givenName) && Objects.equals(surname, appUser.surname) && Objects.equals(isActive, appUser.isActive) && Objects.equals(role, appUser.role);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, username, email, password, givenName, surname, isActive, roleId);
+        return Objects.hash(userId, username, email, password, givenName, surname, isActive, role);
     }
 
     @Override
     public String toString() {
-        return "AppUser{" +
+        return "User{" +
                 "userId='" + userId + '\'' +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
@@ -145,7 +129,7 @@ public class Users {
                 ", givenName='" + givenName + '\'' +
                 ", surname='" + surname + '\'' +
                 ", isActive='" + isActive + '\'' +
-                ", roleId='" + roleId + '\'' +
+                ", role='" + role + '\'' +
                 '}';
     }
 
