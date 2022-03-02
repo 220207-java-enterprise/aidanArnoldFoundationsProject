@@ -5,6 +5,8 @@ package com.revature.foundation.daos;
 
         import java.io.*;
         import java.sql.*;
+        import java.util.ArrayList;
+        import java.util.List;
 
 public class UsersDAO implements CrudDAO<Users> {
 
@@ -61,14 +63,7 @@ public class UsersDAO implements CrudDAO<Users> {
                 user.setIsActive(rs.getString("is_active"));
                 user.setRoleId(rs.getString("role_id"));
 
-//                System.out.print(rs.getString("user_id"));
-//                System.out.print(":" + rs.getString("username"));
-//                System.out.print(":" + rs.getString("email"));
-//                System.out.print(":" + rs.getString("password"));
-//                System.out.print(":" + rs.getString("given_name"));
-//                System.out.print(":" + rs.getString("surname"));
-//                System.out.print(":" + rs.getString("is_active"));
-//                System.out.print(":" + rs.getString("role_id"));
+
             }
 
         } catch (SQLException e) {
@@ -77,11 +72,12 @@ public class UsersDAO implements CrudDAO<Users> {
 
         return user;
     }
-
+    List<Users> total = new ArrayList<>();
     @Override
-    public Users[] getAll() {
+    public List<Users> getAll() {
         String queryAll = "select * from ers_users;";
         Users user = new Users();
+
 
         try {
             PreparedStatement ps = conn.prepareStatement(queryAll);
@@ -99,22 +95,16 @@ public class UsersDAO implements CrudDAO<Users> {
                 user.setIsActive(rs.getString("is_active"));
                 user.setRoleId(rs.getString("role_id"));
 
-//                System.out.print(rs.getString("user_id"));
-//                System.out.print(":" + rs.getString("username"));
-//                System.out.print(":" + rs.getString("email"));
-//                System.out.print(":" + rs.getString("password"));
-//                System.out.print(":" + rs.getString("given_name"));
-//                System.out.print(":" + rs.getString("surname"));
-//                System.out.print(":" + rs.getString("is_active"));
-//                System.out.print(":" + rs.getString("role_id"));
-                System.out.println(user);
+
+                total.add(user);
+//                System.out.println(user);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return new Users[]{user};
+        return total;
     }
 
     @Override

@@ -91,7 +91,8 @@ public class Main {
                 case "5": {
                     CrudDAO<Users> crud = new UsersDAO(conn);
 
-                    Object[] user = crud.getAll();
+                    Object user = crud.getAll();
+                    System.out.println(user);
 
 
                     break;
