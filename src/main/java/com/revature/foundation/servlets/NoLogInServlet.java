@@ -1,16 +1,12 @@
 package com.revature.foundation.servlets;
 
-import com.fasterxml.jackson.databind.DatabindException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.revature.foundation.dtos.requests.LoginRequest;
 import com.revature.foundation.dtos.responses.Principal;
-import com.revature.foundation.dtos.responses.UpdatedUserReponse;
 import com.revature.foundation.services.TokenService;
 import com.revature.foundation.services.UserService;
 import com.revature.foundation.util.exceptions.AuthenticationException;
 import com.revature.foundation.util.exceptions.InvalidRequestException;
-
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,7 +35,8 @@ public class NoLogInServlet extends HttpServlet {
 
             try {
 
-                String payload = String.valueOf(tokenService.extractRequesterDetails(req.getHeader("Authorization")));
+
+                String payload = "This is who is logged in: " + tokenService.extractRequesterDetails(req.getHeader("Authorization"));
                 writer.write(payload);
 
             } catch (InvalidRequestException e) {

@@ -51,6 +51,7 @@ public class AuthServlet extends HttpServlet {
 //            httpSession.setAttribute("authUser", principal);
 
             String token = tokenService.generateToken(principal);
+//            System.out.println(principal);
             resp.setHeader("Authorization", token);
             resp.setContentType("application/json");
             writer.write(payload);

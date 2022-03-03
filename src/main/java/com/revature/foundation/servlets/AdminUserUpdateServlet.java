@@ -2,9 +2,11 @@ package com.revature.foundation.servlets;
 
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.foundation.daos.UsersDAO;
 import com.revature.foundation.dtos.requests.LoginRequest;
 import com.revature.foundation.dtos.responses.Principal;
 import com.revature.foundation.dtos.responses.UpdatedUserReponse;
+import com.revature.foundation.models.Users;
 import com.revature.foundation.services.TokenService;
 import com.revature.foundation.services.UserService;
 import com.revature.foundation.util.exceptions.AuthenticationException;
@@ -45,22 +47,45 @@ public class AdminUserUpdateServlet extends HttpServlet {
                 LoginRequest loginRequest = mapper.readValue(req.getInputStream(), LoginRequest.class);
                 Principal principal = new Principal(userService.login(loginRequest));
 
-                Principal potentiallyAdmin = tokenService.extractRequesterDetails(req.getHeader("Authorization"));
-                if(!(potentiallyAdmin.getRoleId().equals("Admin"))){
-                    throw new InvalidRequestException();
-                }
+
 
                 UpdatedUserReponse updatedUserReponse = new UpdatedUserReponse(userService.login(loginRequest));
 
-                String payload = mapper.writeValueAsString(updatedUserReponse);
 
-//             Stateful session management
-//            HttpSession httpSession = req.getSession();
-//            httpSession.setAttribute("authUser", principal);
+                String header = String.valueOf(tokenService.extractRequesterDetails(req.getHeader("Authorization")));
+                StringBuilder userIdFromHeader = new StringBuilder();
+//                int count = 0;
+//                for (String s:header.split("\'(,\')*")) {
+//                    if(count == 1) {
+//                        userIdFromHeader.append(s);
+////            System.out.println(s);
+//                    }
+//                    count++;
+//                }
+//                UsersDAO daoToPullUserForRole_Id = new UsersDAO();
+//                Users theUserFromHeader = daoToPullUserForRole_Id.getById(String.valueOf(userIdFromHeader));
+//                String uFHuser = theUserFromHeader.getUsername();
+//                String uFHpass = theUserFromHeader.getPassword();
+//                String uFHrole = theUserFromHeader.getRole().getRoleName();
+
+//                Principal principal2 = new Principal(userService.login(uFHuser, uFHpass));
+//                String payload3 = mapper.writeValueAsString(principal2);
+
+                String payload1 = "This is who is logged in: "+ tokenService.extractRequesterDetails(req.getHeader("Authorization"));
+                String payload2 = "This is who we are going to change " + mapper.writeValueAsString(updatedUserReponse);
+
+                String payload = payload1 + payload2 + "what Need";
+
+
 
                 String token = tokenService.generateToken(principal);
                 resp.setHeader("Authorization", token);
                 resp.setContentType("application/json");
+
+                Principal potentiallyAdmin = tokenService.extractRequesterDetails(req.getHeader("Authorization"));
+//                if((uFHrole.equals("Admin"))){
+//                    throw new InvalidRequestException();
+//                }
                 writer.write(payload);
 
 
