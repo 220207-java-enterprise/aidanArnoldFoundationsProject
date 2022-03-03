@@ -13,7 +13,7 @@ public class Users {
     private String password;
     private String givenName;
     private String surname;
-    private String isActive;
+    private Boolean isActive;
     private UserRole role;
 
     // TODO create a Role enum
@@ -30,7 +30,7 @@ public class Users {
         this.password = password;
     }
 
-    public Users(String userId, String username, String email, String password, String givenName, String surname, String isActive, String role) {
+    public Users(String userId, String username, String email, String password, String givenName, String surname, Boolean isActive, String role) {
     }
 
     public String getUserId() {
@@ -80,11 +80,11 @@ public class Users {
         this.surname = surname;
     }
 
-    public String getIsActive() {
+    public Boolean getIsActive() {
         return isActive;
     }
 
-    public void setIsActive(String isActive) {
+    public void setIsActive(Boolean isActive) {
         this.isActive = isActive;
     }
 

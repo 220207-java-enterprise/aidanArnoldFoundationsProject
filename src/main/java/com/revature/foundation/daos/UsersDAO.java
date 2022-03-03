@@ -17,7 +17,7 @@ import java.util.List;
     public class UsersDAO implements CrudDAO<Users> {
 
         private final String rootSelect = "SELECT " +
-                "au.user_id, au.given_name, au.surname, au.email, au.username, au.password, au.role_id, ur.role " +
+                "au.user_id, au.given_name, au.surname, au.email, au.username, au.password, au.is_active, au.role_id, ur.role " +
                 "FROM ers_users au " +
                 "JOIN ers_user_roles ur " +
                 "ON au.role_id = ur.role_id ";
@@ -40,6 +40,7 @@ import java.util.List;
                     user.setEmail(rs.getString("email"));
                     user.setUsername(rs.getString("username"));
                     user.setPassword(rs.getString("password"));
+                    user.setIsActive(rs.getBoolean("is_active"));
                     user.setRole(new UserRole(rs.getString("role_id"), rs.getString("role")));
                 }
 
@@ -68,6 +69,7 @@ import java.util.List;
                     user.setEmail(rs.getString("email"));
                     user.setUsername(rs.getString("username"));
                     user.setPassword(rs.getString("password"));
+                    user.setIsActive(rs.getBoolean("is_active"));
                     user.setRole(new UserRole(rs.getString("role_id"), rs.getString("role")));
                 }
 
@@ -98,6 +100,7 @@ import java.util.List;
                     authUser.setEmail(rs.getString("email"));
                     authUser.setUsername(rs.getString("username"));
                     authUser.setPassword(rs.getString("password"));
+                    authUser.setIsActive(rs.getBoolean("is_active"));
                     authUser.setRole(new UserRole(rs.getString("role_id"), rs.getString("role")));
                 }
 
@@ -114,14 +117,15 @@ import java.util.List;
             try (Connection conn = connectionFactory.getInstance().getConnection()) {
 
                 conn.setAutoCommit(false);
-                PreparedStatement pstmt = conn.prepareStatement("INSERT INTO ers_users VALUES (?, ?, ?, ?, ?, ?, ?)");
+                PreparedStatement pstmt = conn.prepareStatement("INSERT INTO ers_users VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
                 pstmt.setString(1, newUser.getUserId());
                 pstmt.setString(2, newUser.getGivenName());
                 pstmt.setString(3, newUser.getSurname());
                 pstmt.setString(4, newUser.getEmail());
                 pstmt.setString(5, newUser.getUsername());
                 pstmt.setString(6, newUser.getPassword());
-                pstmt.setString(7, newUser.getRole().getId());
+                pstmt.setBoolean(7, newUser.getIsActive());
+                pstmt.setString(8, newUser.getRole().getId());
 
                 int rowsInserted = pstmt.executeUpdate();
                 if (rowsInserted != 1) {
@@ -155,6 +159,7 @@ import java.util.List;
                     user.setEmail(rs.getString("email"));
                     user.setUsername(rs.getString("username"));
                     user.setPassword(rs.getString("password"));
+                    user.setIsActive(rs.getBoolean("is_active"));
                     user.setRole(new UserRole(rs.getString("role_id"), rs.getString("role")));
                 }
 
@@ -182,6 +187,7 @@ import java.util.List;
                     user.setEmail(rs.getString("email"));
                     user.setUsername(rs.getString("username"));
                     user.setPassword(rs.getString("password"));
+                    user.setIsActive(rs.getBoolean("is_active"));
                     user.setRole(new UserRole(rs.getString("role_id"), rs.getString("role")));
                     users.add(user);
                 }
@@ -198,18 +204,20 @@ import java.util.List;
 
                 conn.setAutoCommit(false);
                 PreparedStatement pstmt = conn.prepareStatement("UPDATE ers_users " +
-                        "SET first_name = ?, " +
-                        "last_name = ?, " +
+                        "SET username = ?, " +
                         "email = ?, " +
-                        "username = ?, " +
                         "password = ? " +
-                        "WHERE id = ?");
+                        "given_name = ?, " +
+                        "surname = ?, " +
+                        "is_active = ?" +
+                        "WHERE user_id = ?");
                 pstmt.setString(1, updatedUser.getGivenName());
                 pstmt.setString(2, updatedUser.getSurname());
                 pstmt.setString(3, updatedUser.getEmail());
                 pstmt.setString(4, updatedUser.getUsername());
                 pstmt.setString(5, updatedUser.getPassword());
-                pstmt.setString(6, updatedUser.getUserId());
+                pstmt.setBoolean(6, updatedUser.getIsActive());
+                pstmt.setString(7, updatedUser.getUserId());
 
                 // TODO allow role to be updated as well
 

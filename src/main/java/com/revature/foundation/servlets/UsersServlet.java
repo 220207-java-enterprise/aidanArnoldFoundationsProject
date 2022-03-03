@@ -101,6 +101,7 @@ public class UsersServlet extends HttpServlet{
             respWriter.write(payload);
 
         } catch (InvalidRequestException | DatabindException e) {
+            e.printStackTrace();
             resp.setStatus(400); // BAD REQUEST
         } catch (ResourceConflictException e) {
             resp.setStatus(409); // CONFLICT
@@ -132,8 +133,8 @@ public class UsersServlet extends HttpServlet{
             respWriter.write(payload);
 
         } catch (InvalidRequestException | DatabindException e) {
-            resp.setStatus(400); // BAD REQUEST
             e.printStackTrace();
+            resp.setStatus(400); // BAD REQUEST
         } catch (ResourceConflictException e) {
             e.printStackTrace();
             resp.setStatus(409); // CONFLICT

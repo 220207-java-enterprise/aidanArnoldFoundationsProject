@@ -11,7 +11,7 @@ public class UpdatedUserReponse {
     private String password;
     private String givenName;
     private String surname;
-    private String isActive;
+    private Boolean isActive;
     private String roleId;
 
     public UpdatedUserReponse() {
@@ -77,11 +77,11 @@ public class UpdatedUserReponse {
         this.surname = surname;
     }
 
-    public String getIsActive() {
+    public Boolean getIsActive() {
         return isActive;
     }
 
-    public void setIsActive(String isActive) {
+    public void setIsActive(Boolean isActive) {
         this.isActive = isActive;
     }
 

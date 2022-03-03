@@ -54,27 +54,20 @@ public class AdminUserUpdateServlet extends HttpServlet {
 
                 String header = String.valueOf(tokenService.extractRequesterDetails(req.getHeader("Authorization")));
                 StringBuilder userIdFromHeader = new StringBuilder();
-//                int count = 0;
-//                for (String s:header.split("\'(,\')*")) {
-//                    if(count == 1) {
-//                        userIdFromHeader.append(s);
-////            System.out.println(s);
-//                    }
-//                    count++;
-//                }
-//                UsersDAO daoToPullUserForRole_Id = new UsersDAO();
-//                Users theUserFromHeader = daoToPullUserForRole_Id.getById(String.valueOf(userIdFromHeader));
-//                String uFHuser = theUserFromHeader.getUsername();
-//                String uFHpass = theUserFromHeader.getPassword();
-//                String uFHrole = theUserFromHeader.getRole().getRoleName();
+                int count = 0;
+                for (String s:header.split("\'(,\')*")) {
+                    if(count == 5) {
+                        userIdFromHeader.append(s);
+                    }
+                    count++;
+                }
+                
 
-//                Principal principal2 = new Principal(userService.login(uFHuser, uFHpass));
-//                String payload3 = mapper.writeValueAsString(principal2);
 
                 String payload1 = "This is who is logged in: "+ tokenService.extractRequesterDetails(req.getHeader("Authorization"));
-                String payload2 = "This is who we are going to change " + mapper.writeValueAsString(updatedUserReponse);
+                String payload2 = "\n This is who we are going to change " + mapper.writeValueAsString(updatedUserReponse);
 
-                String payload = payload1 + payload2 + "what Need";
+                String payload = payload1 + payload2 + "\nwhat Need";
 
 
 
@@ -83,9 +76,9 @@ public class AdminUserUpdateServlet extends HttpServlet {
                 resp.setContentType("application/json");
 
                 Principal potentiallyAdmin = tokenService.extractRequesterDetails(req.getHeader("Authorization"));
-//                if((uFHrole.equals("Admin"))){
-//                    throw new InvalidRequestException();
-//                }
+                if(!(String.valueOf(userIdFromHeader).equals("Admin"))){
+                    throw new InvalidRequestException();
+                }
                 writer.write(payload);
 
 
