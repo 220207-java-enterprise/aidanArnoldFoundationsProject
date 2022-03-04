@@ -1,12 +1,14 @@
 package com.revature.foundation.models;
 
+import com.revature.foundation.util.Bytea;
+
 public class Reimbursements {
     private String reimbId;
     private int amount;
-    private int submitted;
-    private int resolved;
+    private String submitted;
+    private String resolved;
     private String description;
-    private byte receipt;
+    private Bytea receipt;
     private String paymentId;
     private String authorId;
     private String resolverId;
@@ -17,7 +19,7 @@ public class Reimbursements {
         super();
     }
 
-    public Reimbursements(String reimbId, int amount, int submitted, int resolved, String description, byte receipt, String paymentId, String authorId, String resolverId, ReimbursementStatuses statusId, ReimbursementTypes typeId) {
+    public Reimbursements(String reimbId, int amount, String submitted, String resolved, String description, Bytea receipt, String paymentId, String authorId, String resolverId, ReimbursementStatuses statusId, ReimbursementTypes typeId) {
         this.reimbId = reimbId;
         this.amount = amount;
         this.submitted = submitted;
@@ -29,6 +31,9 @@ public class Reimbursements {
         this.resolverId = resolverId;
         this.statusId = statusId;
         this.typeId = typeId;
+    }
+
+    public Reimbursements(int amount, String submitted, String resolved, String description, Bytea receipt, String paymentId, String authorId, String resolverId, ReimbursementStatuses statusId, ReimbursementTypes typeId) {
     }
 
     public String getReimbId() {
@@ -47,19 +52,19 @@ public class Reimbursements {
         this.amount = amount;
     }
 
-    public int getSubmitted() {
+    public String getSubmitted() {
         return submitted;
     }
 
-    public void setSubmitted(int submitted) {
+    public void setSubmitted(String submitted) {
         this.submitted = submitted;
     }
 
-    public int getResolved() {
+    public String getResolved() {
         return resolved;
     }
 
-    public void setResolved(int resolved) {
+    public void setResolved(String resolved) {
         this.resolved = resolved;
     }
 
@@ -71,11 +76,11 @@ public class Reimbursements {
         this.description = description;
     }
 
-    public byte getReceipt() {
+    public Bytea getReceipt() {
         return receipt;
     }
 
-    public void setReceipt(byte receipt) {
+    public void setReceipt(Bytea receipt) {
         this.receipt = receipt;
     }
 

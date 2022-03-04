@@ -69,7 +69,6 @@ public class AdminUserUpdateServlet extends HttpServlet {
 
                 String payload1 = "This is who is logged in: "+ tokenService.extractRequesterDetails(req.getHeader("Authorization"));
                 String payload2 = "\n This is who we changed: " + mapper.writeValueAsString(updatedUserReponse);
-                System.out.println("updatedUserReponse" + updatedUserReponse);
 
                 String payload = payload1 + payload2;
 

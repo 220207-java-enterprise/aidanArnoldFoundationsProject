@@ -218,7 +218,6 @@ import java.util.List;
                 pstmt.setString(5, updatedUser.getSurname());
                 pstmt.setBoolean(6, updatedUser.getIsActive());
                 pstmt.setString(7, updatedUser.getUserId());
-                System.out.println("pst is " + pstmt);
 
 
                 // TODO allow role to be updated as well

@@ -1,7 +1,9 @@
 package com.revature.foundation.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.foundation.daos.ReimbursementsDAO;
 import com.revature.foundation.daos.UsersDAO;
+import com.revature.foundation.services.ReimbursementService;
 import com.revature.foundation.services.TokenService;
 import com.revature.foundation.services.UserService;
 import com.revature.foundation.servlets.*;
@@ -24,14 +26,17 @@ public class ContextLoaderListener implements ServletContextListener {
         ObjectMapper mapper = new ObjectMapper();
         JwtConfig jwtConfig = new JwtConfig();
         TokenService tokenService = new TokenService(jwtConfig);
-
+        ReimbursementsDAO reimbursementsDAO = new ReimbursementsDAO();
         UsersDAO userDAO = new UsersDAO();
         UserService userService = new UserService(userDAO);
+        ReimbursementService reimbursementService = new ReimbursementService(reimbursementsDAO);
+
         UsersServlet userServlet = new UsersServlet(tokenService, userService, mapper);
         AuthServlet authServlet = new AuthServlet(tokenService, userService, mapper);
         AdminUserUpdateServlet adminUserUpdateServlet = new AdminUserUpdateServlet(tokenService, userService, mapper);
-        NewReimbursementServlet newReimbursementServlet = new NewReimbursementServlet(tokenService, userService, mapper);
+        UpdatedReimbursementServlet updatedReimbursementServlet = new UpdatedReimbursementServlet(tokenService, reimbursementService, mapper);
         NoLogInServlet noLogInServlet = new NoLogInServlet(tokenService);
+        UserMakeReimbursementServlet userMakeReimbursementServlet = new UserMakeReimbursementServlet(tokenService, reimbursementService, mapper);
 
         // Programmatic Servlet Registration
         ServletContext context = sce.getServletContext();
@@ -39,7 +44,8 @@ public class ContextLoaderListener implements ServletContextListener {
         context.addServlet("AuthServlet", authServlet).addMapping("/auth");
         context.addServlet("AdminUserUpdateServlet", adminUserUpdateServlet).addMapping("/adminUserUpdate");
         context.addServlet("NoLogInServlet", noLogInServlet).addMapping("/noLogInServlet");
-        context.addServlet("NewReimbursementServlet", newReimbursementServlet).addMapping("/newReimbursement");
+        context.addServlet("UpdatedReimbursementServlet", updatedReimbursementServlet).addMapping("/updatedReimbursement");
+        context.addServlet("UserMakeReimbursementServlet", userMakeReimbursementServlet).addMapping("/newReimbursement");
 
     }
 

@@ -55,14 +55,6 @@ public class UsersServlet extends HttpServlet{
 
         // TODO implement some security logic here to protect sensitive operations
 
-        // get users (all, by id, by w/e)
-//        HttpSession session = req.getSession(false);
-//        if (session == null) {
-//            resp.setStatus(401);
-//            return;
-//        }
-//        Principal requester = (Principal) session.getAttribute("authUser");
-
         Principal requester = tokenService.extractRequesterDetails(req.getHeader("Authorization"));
 
         if (requester == null) {
