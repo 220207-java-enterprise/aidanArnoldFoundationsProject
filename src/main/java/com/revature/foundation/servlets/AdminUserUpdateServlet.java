@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.foundation.daos.UsersDAO;
 import com.revature.foundation.dtos.requests.LoginRequest;
+import com.revature.foundation.dtos.requests.UpdatedUserRequest;
 import com.revature.foundation.dtos.responses.Principal;
 import com.revature.foundation.dtos.responses.UpdatedUserReponse;
 import com.revature.foundation.models.Users;
@@ -36,7 +37,7 @@ public class AdminUserUpdateServlet extends HttpServlet {
             System.out.println(req.getServletContext().getInitParameter("programmaticParam"));
         }
 
-        // Login endpoint
+        // AdminUserUpdate endpoint
         @Override
         protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -44,12 +45,14 @@ public class AdminUserUpdateServlet extends HttpServlet {
 
             try {
 
-                LoginRequest loginRequest = mapper.readValue(req.getInputStream(), LoginRequest.class);
-                Principal principal = new Principal(userService.login(loginRequest));
+//                LoginRequest loginRequest = mapper.readValue(req.getInputStream(), LoginRequest.class);
+//                Principal principal = new Principal(userService.login(loginRequest));
 
-
-
-                UpdatedUserReponse updatedUserReponse = new UpdatedUserReponse(userService.login(loginRequest));
+                UpdatedUserRequest updatedUserRequest = mapper.readValue(req.getInputStream(), UpdatedUserRequest.class);
+//                System.out.println(updatedUserRequest);
+                Principal principal = new Principal(userService.updatedUser(updatedUserRequest));
+//                System.out.println(principal);
+                UpdatedUserReponse updatedUserReponse = new UpdatedUserReponse(userService.updatedUser(updatedUserRequest));
 
 
                 String header = String.valueOf(tokenService.extractRequesterDetails(req.getHeader("Authorization")));
@@ -61,13 +64,14 @@ public class AdminUserUpdateServlet extends HttpServlet {
                     }
                     count++;
                 }
-                
+
 
 
                 String payload1 = "This is who is logged in: "+ tokenService.extractRequesterDetails(req.getHeader("Authorization"));
-                String payload2 = "\n This is who we are going to change " + mapper.writeValueAsString(updatedUserReponse);
+                String payload2 = "\n This is who we changed: " + mapper.writeValueAsString(updatedUserReponse);
+                System.out.println("updatedUserReponse" + updatedUserReponse);
 
-                String payload = payload1 + payload2 + "\nwhat Need";
+                String payload = payload1 + payload2;
 
 
 

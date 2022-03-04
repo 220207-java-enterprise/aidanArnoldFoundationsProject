@@ -1,0 +1,96 @@
+package com.revature.foundation.servlets;
+
+import com.fasterxml.jackson.databind.DatabindException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.foundation.dtos.requests.UpdatedUserRequest;
+import com.revature.foundation.dtos.responses.Principal;
+import com.revature.foundation.dtos.responses.UpdatedUserReponse;
+import com.revature.foundation.services.TokenService;
+import com.revature.foundation.services.UserService;
+import com.revature.foundation.util.exceptions.AuthenticationException;
+import com.revature.foundation.util.exceptions.InvalidRequestException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+public class NewReimbursementServlet extends HttpServlet {
+
+    private final TokenService tokenService;
+    private final UserService userService;
+    private final ObjectMapper mapper;
+
+    public NewReimbursementServlet(TokenService tokenService, UserService userService, ObjectMapper mapper) {
+        this.tokenService = tokenService;
+        this.userService = userService;
+        this.mapper = mapper;
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println(req.getServletContext().getInitParameter("programmaticParam"));
+    }
+
+    // NewReimbursement endpoint
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        PrintWriter writer = resp.getWriter();
+
+        try {
+
+//                LoginRequest loginRequest = mapper.readValue(req.getInputStream(), LoginRequest.class);
+//                Principal principal = new Principal(userService.login(loginRequest));
+
+            UpdatedUserRequest updatedUserRequest = mapper.readValue(req.getInputStream(), UpdatedUserRequest.class);
+//                System.out.println(updatedUserRequest);
+            Principal principal = new Principal(userService.updatedUser(updatedUserRequest));
+//                System.out.println(principal);
+            UpdatedUserReponse updatedUserReponse = new UpdatedUserReponse(userService.updatedUser(updatedUserRequest));
+
+
+            String header = String.valueOf(tokenService.extractRequesterDetails(req.getHeader("Authorization")));
+            StringBuilder userIdFromHeader = new StringBuilder();
+            int count = 0;
+            for (String s:header.split("\'(,\')*")) {
+                if(count == 5) {
+                    userIdFromHeader.append(s);
+                }
+                count++;
+            }
+
+
+
+            String payload1 = "This is who is logged in: "+ tokenService.extractRequesterDetails(req.getHeader("Authorization"));
+            String payload2 = "\n This is who we changed: " + mapper.writeValueAsString(updatedUserReponse);
+            System.out.println("updatedUserReponse" + updatedUserReponse);
+
+            String payload = payload1 + payload2;
+
+
+
+            String token = tokenService.generateToken(principal);
+            resp.setHeader("Authorization", token);
+            resp.setContentType("application/json");
+
+            Principal potentiallyAdmin = tokenService.extractRequesterDetails(req.getHeader("Authorization"));
+            if(!(String.valueOf(userIdFromHeader).equals("Employee")) || !(String.valueOf(userIdFromHeader).equals("Financial Advisor"))){
+                throw new InvalidRequestException();
+            }
+            writer.write(payload);
+
+
+        } catch (InvalidRequestException | DatabindException e) {
+            e.printStackTrace();
+            resp.setStatus(400);
+        } catch (AuthenticationException e) {
+            resp.setStatus(401); // UNAUTHORIZED (no user found with provided credentials)
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp.setStatus(500);
+        }
+    }
+}

@@ -4,10 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.foundation.daos.UsersDAO;
 import com.revature.foundation.services.TokenService;
 import com.revature.foundation.services.UserService;
-import com.revature.foundation.servlets.AuthServlet;
-import com.revature.foundation.servlets.NoLogInServlet;
-import com.revature.foundation.servlets.UsersServlet;
-import com.revature.foundation.servlets.AdminUserUpdateServlet;
+import com.revature.foundation.servlets.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,6 +30,7 @@ public class ContextLoaderListener implements ServletContextListener {
         UsersServlet userServlet = new UsersServlet(tokenService, userService, mapper);
         AuthServlet authServlet = new AuthServlet(tokenService, userService, mapper);
         AdminUserUpdateServlet adminUserUpdateServlet = new AdminUserUpdateServlet(tokenService, userService, mapper);
+        NewReimbursementServlet newReimbursementServlet = new NewReimbursementServlet(tokenService, userService, mapper);
         NoLogInServlet noLogInServlet = new NoLogInServlet(tokenService);
 
         // Programmatic Servlet Registration
@@ -41,6 +39,7 @@ public class ContextLoaderListener implements ServletContextListener {
         context.addServlet("AuthServlet", authServlet).addMapping("/auth");
         context.addServlet("AdminUserUpdateServlet", adminUserUpdateServlet).addMapping("/adminUserUpdate");
         context.addServlet("NoLogInServlet", noLogInServlet).addMapping("/noLogInServlet");
+        context.addServlet("NewReimbursementServlet", newReimbursementServlet).addMapping("/newReimbursement");
 
     }
 

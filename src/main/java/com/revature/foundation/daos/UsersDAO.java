@@ -147,7 +147,7 @@ import java.util.List;
 
             try (Connection conn = connectionFactory.getInstance().getConnection()) {
 
-                PreparedStatement pstmt = conn.prepareStatement(rootSelect + "WHERE id = ?");
+                PreparedStatement pstmt = conn.prepareStatement(rootSelect + "WHERE user_id = ?");
                 pstmt.setString(1, id);
 
                 ResultSet rs = pstmt.executeQuery();
@@ -206,18 +206,20 @@ import java.util.List;
                 PreparedStatement pstmt = conn.prepareStatement("UPDATE ers_users " +
                         "SET username = ?, " +
                         "email = ?, " +
-                        "password = ? " +
+                        "password = ?, " +
                         "given_name = ?, " +
                         "surname = ?, " +
-                        "is_active = ?" +
+                        "is_active = ? " +
                         "WHERE user_id = ?");
-                pstmt.setString(1, updatedUser.getGivenName());
-                pstmt.setString(2, updatedUser.getSurname());
-                pstmt.setString(3, updatedUser.getEmail());
-                pstmt.setString(4, updatedUser.getUsername());
-                pstmt.setString(5, updatedUser.getPassword());
+                pstmt.setString(1, updatedUser.getUsername());
+                pstmt.setString(2, updatedUser.getEmail());
+                pstmt.setString(3, updatedUser.getPassword());
+                pstmt.setString(4, updatedUser.getGivenName());
+                pstmt.setString(5, updatedUser.getSurname());
                 pstmt.setBoolean(6, updatedUser.getIsActive());
                 pstmt.setString(7, updatedUser.getUserId());
+                System.out.println("pst is " + pstmt);
+
 
                 // TODO allow role to be updated as well
 
@@ -238,7 +240,7 @@ import java.util.List;
             try (Connection conn = connectionFactory.getInstance().getConnection()) {
 
                 conn.setAutoCommit(false);
-                PreparedStatement pstmt = conn.prepareStatement("DELETE FROM ers_users WHERE id = ?");
+                PreparedStatement pstmt = conn.prepareStatement("DELETE FROM ers_users WHERE user_id = ?");
                 pstmt.setString(1, id);
 
                 int rowsInserted = pstmt.executeUpdate();

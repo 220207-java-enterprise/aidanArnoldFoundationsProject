@@ -94,10 +94,17 @@ public class UpdatedUserRequest {
     }
 
     public Users extractUser() {
+//        UsersDAO daoToPullUserForRole_Id = new UsersDAO();
+//        Users pulledUser = daoToPullUserForRole_Id.getById(this.userId);
+////        Users pulledUser = otherVar.getById(this.role);
+//        UserRole aRole = new UserRole(pulledUser.getRole().getId(), role);
+//        System.out.println("tsate" + pulledUser);
+//        return pulledUser;
+
         UsersDAO daoToPullUserForRole_Id = new UsersDAO();
         Users pulledUser = daoToPullUserForRole_Id.getById(this.userId);
         UserRole aRole = new UserRole(pulledUser.getRole().getId(), role);
-        return new Users(this.userId, this.username, this.email, this.password, this.givenName, this.surname, this.isActive, this.role);
+        return new Users(this.userId, this.username, this.email, this.password, this.givenName, this.surname, this.isActive, aRole);
     }
 
     @Override

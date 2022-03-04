@@ -30,7 +30,15 @@ public class Users {
         this.password = password;
     }
 
-    public Users(String userId, String username, String email, String password, String givenName, String surname, Boolean isActive, String role) {
+    public Users(String userId, String username, String email, String password, String givenName, String surname, Boolean isActive, UserRole role) {
+        this.userId = userId;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.givenName = givenName;
+        this.surname = surname;
+        this.isActive = isActive;
+        this.role = role;
     }
 
     public String getUserId() {

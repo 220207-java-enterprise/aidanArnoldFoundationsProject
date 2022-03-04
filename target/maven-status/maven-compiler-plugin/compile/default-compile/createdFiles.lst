@@ -22,6 +22,7 @@ com\revature\foundation\models\Reimbursements.class
 com\revature\foundation\dtos\responses\Principal.class
 com\revature\foundation\util\AppState.class
 com\revature\foundation\util\connectionFactory.class
+com\revature\foundation\servlets\NewReimbursementServlet.class
 com\revature\foundation\dtos\responses\ResourceCreationResponse.class
 com\revature\foundation\dtos\responses\UpdatedUserReponse.class
 com\revature\foundation\services\UserService.class

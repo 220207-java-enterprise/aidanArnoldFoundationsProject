@@ -39,6 +39,7 @@ public class UserService {
     //redundant?
     public Users updatedUser(UpdatedUserRequest updateRequest) {
         Users updatedUser = updateRequest.extractUser();
+
         userDAO.update(updatedUser);
         return updatedUser;
     }
