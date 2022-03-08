@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public class ReimbursementsDAO implements CrudDAO<Reimbursements> {
 
-    private final String rootSelect = "SELECT " +
+    private static final String rootSelect = "SELECT " +
             "er.reimb_id, er.amount, er.submitted, er.resolved, er.description, er.receipt, er.payment_id, er.author_id, er.resolver_id, er.status_id, er.type_id , et.type, ers.status " +
             "FROM ers_reimbursements er " +
             "JOIN ers_reimbursement_types et " +
@@ -143,7 +143,7 @@ public class ReimbursementsDAO implements CrudDAO<Reimbursements> {
         try (Connection conn = connectionFactory.getInstance().getConnection()) {
 
             conn.setAutoCommit(false);
-            PreparedStatement pstmt4 = conn.prepareStatement(getAllRootSelect + "?");
+            PreparedStatement pstmt4 = conn.prepareStatement(rootSelect + "WHERE AUTHOR_ID = ?");
             pstmt4.setString(1, id);
             ResultSet rs = pstmt4.executeQuery();
             while (rs.next()) {
@@ -159,8 +159,10 @@ public class ReimbursementsDAO implements CrudDAO<Reimbursements> {
                 reimbursement.setResolverId(rs.getString("resolver_id"));
                 reimbursement.setStatusId(new ReimbursementStatuses(rs.getString("status_id"), rs.getString("status")));
                 reimbursement.setTypeId(new ReimbursementTypes(rs.getString("type_id"), rs.getString("type")));
+//                System.out.println(reimbursement);
                 reimbursements1.add(reimbursement);
             }
+            System.out.println(reimbursements1);
             return reimbursements1;
         }
     }

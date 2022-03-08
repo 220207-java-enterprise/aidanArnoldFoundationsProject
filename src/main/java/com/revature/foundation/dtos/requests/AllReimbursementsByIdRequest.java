@@ -24,18 +24,8 @@ public class AllReimbursementsByIdRequest {
         super();
     }
 
-    public AllReimbursementsByIdRequest(String reimbId, int amount, String submitted, String resolved, String description, Bytea receipt, String paymentId, String authorId, String resolverId, String statusId, String typeId) {
-        this.reimbId = reimbId;
-        this.amount = amount;
-        this.submitted = submitted;
-        this.resolved = resolved;
-        this.description = description;
-        this.receipt = receipt;
-        this.paymentId = paymentId;
+    public AllReimbursementsByIdRequest(String authorId) {
         this.authorId = authorId;
-        this.resolverId = resolverId;
-        this.statusId = statusId;
-        this.typeId = typeId;
     }
 
     public String getReimbId() {

@@ -60,25 +60,18 @@ public class ReimbursementService {
         String allReimbursements = allReimbursementsByIdRequest.extractAuthorid();
 
         reimbursementsDAO.getAllById(allReimbursements);
+
         return allReimbursements;
     }
 
     public List<Reimbursements> getAllReimbursementsById(AllReimbursementsByIdRequest allReimbursementsByIdRequest) throws SQLException {
+//        System.out.println("somethings");
 
-        String reimbId = allReimbursementsByIdRequest.getReimbId();
-        int amount = allReimbursementsByIdRequest.getAmount();
-        String submitted = allReimbursementsByIdRequest.getSubmitted();
-        String resolved = allReimbursementsByIdRequest.getResolved();
-        String description = allReimbursementsByIdRequest.getDescription();
-        String receipt = allReimbursementsByIdRequest.toString();
-        String paymentId = allReimbursementsByIdRequest.getPaymentId();
         String authorId = allReimbursementsByIdRequest.getAuthorId();
-        String resolverId = allReimbursementsByIdRequest.getResolverId();
-        String statusId = allReimbursementsByIdRequest.getStatusId();
-        String typeId = allReimbursementsByIdRequest.getTypeId();
+//        System.out.println(authorId);
 
         List<Reimbursements>  reimbursements = ReimbursementsDAO.getAllById(authorId);
-
+        System.out.println(reimbursements + "asodf");
         if (reimbursements == null) {
             throw new AuthenticationException();
         }
