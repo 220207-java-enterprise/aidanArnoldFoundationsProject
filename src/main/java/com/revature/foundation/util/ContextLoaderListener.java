@@ -37,6 +37,7 @@ public class ContextLoaderListener implements ServletContextListener {
         UpdatedReimbursementServlet updatedReimbursementServlet = new UpdatedReimbursementServlet(tokenService, reimbursementService, mapper);
         NoLogInServlet noLogInServlet = new NoLogInServlet(tokenService);
         UserMakeReimbursementServlet userMakeReimbursementServlet = new UserMakeReimbursementServlet(tokenService, reimbursementService, mapper);
+        AllReimbursementsByIdServlet allReimbursementsByIdServlet = new AllReimbursementsByIdServlet(tokenService, reimbursementService, mapper);
 
         // Programmatic Servlet Registration
         ServletContext context = sce.getServletContext();
@@ -46,6 +47,7 @@ public class ContextLoaderListener implements ServletContextListener {
         context.addServlet("NoLogInServlet", noLogInServlet).addMapping("/noLogInServlet");
         context.addServlet("UpdatedReimbursementServlet", updatedReimbursementServlet).addMapping("/updatedReimbursement");
         context.addServlet("UserMakeReimbursementServlet", userMakeReimbursementServlet).addMapping("/newReimbursement");
+        context.addServlet("AllReimbursementsByIdServlet", allReimbursementsByIdServlet).addMapping("/allReimbursementsById");
 
     }
 

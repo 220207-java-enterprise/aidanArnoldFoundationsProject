@@ -77,7 +77,7 @@ public class UpdatedReimbursementServlet extends HttpServlet {
 
 
             System.out.println(userIdFromHeader);
-            if(!(String.valueOf(userIdFromHeader).equals("Financial Advisor"))){
+            if(!(String.valueOf(userIdFromHeader).equals("Finance Manager"))){
                 throw new InvalidRequestException();
             }
             writer.write(payload);

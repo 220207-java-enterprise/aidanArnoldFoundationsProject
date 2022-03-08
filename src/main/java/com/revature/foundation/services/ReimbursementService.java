@@ -1,15 +1,16 @@
 package com.revature.foundation.services;
 
 import com.revature.foundation.daos.ReimbursementsDAO;
+import com.revature.foundation.daos.UsersDAO;
+import com.revature.foundation.dtos.requests.AllReimbursementsByIdRequest;
 import com.revature.foundation.dtos.requests.NewReimbursementRequest;
 import com.revature.foundation.dtos.requests.UpdatedReimbursementRequest;
-import com.revature.foundation.dtos.requests.UpdatedUserRequest;
 import com.revature.foundation.dtos.responses.AppReimbursementResponse;
-import com.revature.foundation.dtos.responses.AppUserResponse;
 import com.revature.foundation.models.ReimbursementStatuses;
 import com.revature.foundation.models.Reimbursements;
-import com.revature.foundation.models.Users;
+import com.revature.foundation.util.exceptions.AuthenticationException;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -22,7 +23,7 @@ public class ReimbursementService {
     public ReimbursementService(ReimbursementsDAO reimbursementsDAO) {
         this.reimbursementsDAO = reimbursementsDAO;
     }
-
+    private UsersDAO userDAO;
     public List<Reimbursements> getAll() {
         List<Reimbursements> reimbursements = reimbursementsDAO.getAll();
         List<AppReimbursementResponse> reimbursementResponses = new ArrayList<>();
@@ -35,6 +36,7 @@ public class ReimbursementService {
 
     public Reimbursements create(NewReimbursementRequest newReimbursementRequest) {
         Reimbursements newReimbursement = newReimbursementRequest.extractReimbursement();
+        System.out.println("pointer" + newReimbursement.toString());
 
         //TODO add if reimbursementIsValid logic
         ReimbursementStatuses sdf = new ReimbursementStatuses("0", "PENDING");
@@ -52,6 +54,37 @@ public class ReimbursementService {
 
         reimbursementsDAO.update(updatedReimbursement);
         return updatedReimbursement;
+    }
+
+    public String AllReimbursementsById(AllReimbursementsByIdRequest allReimbursementsByIdRequest) throws SQLException {
+        String allReimbursements = allReimbursementsByIdRequest.extractAuthorid();
+
+        reimbursementsDAO.getAllById(allReimbursements);
+        return allReimbursements;
+    }
+
+    public List<Reimbursements> getAllReimbursementsById(AllReimbursementsByIdRequest allReimbursementsByIdRequest) throws SQLException {
+
+        String reimbId = allReimbursementsByIdRequest.getReimbId();
+        int amount = allReimbursementsByIdRequest.getAmount();
+        String submitted = allReimbursementsByIdRequest.getSubmitted();
+        String resolved = allReimbursementsByIdRequest.getResolved();
+        String description = allReimbursementsByIdRequest.getDescription();
+        String receipt = allReimbursementsByIdRequest.toString();
+        String paymentId = allReimbursementsByIdRequest.getPaymentId();
+        String authorId = allReimbursementsByIdRequest.getAuthorId();
+        String resolverId = allReimbursementsByIdRequest.getResolverId();
+        String statusId = allReimbursementsByIdRequest.getStatusId();
+        String typeId = allReimbursementsByIdRequest.getTypeId();
+
+        List<Reimbursements>  reimbursements = ReimbursementsDAO.getAllById(authorId);
+
+        if (reimbursements == null) {
+            throw new AuthenticationException();
+        }
+
+        return reimbursements;
+
     }
 
 }

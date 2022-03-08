@@ -15,13 +15,18 @@ import com.revature.foundation.daos.UsersDAO;
 import com.revature.foundation.util.exceptions.AuthenticationException;
 import com.revature.foundation.util.exceptions.InvalidRequestException;
 import com.revature.foundation.util.exceptions.ResourceConflictException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 
+@Service
 public class UserService {
 
     private UsersDAO userDAO; // a dependency of UserService
 
     // Constructor injection
+    //If you only have one constructor then you dont really need this autowired tag ebcause its implied
+    @Autowired
     public UserService(UsersDAO userDAO) {
         this.userDAO = userDAO;
     }

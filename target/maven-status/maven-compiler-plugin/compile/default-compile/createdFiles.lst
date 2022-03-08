@@ -21,9 +21,12 @@ com\revature\foundation\util\JwtConfig.class
 com\revature\foundation\dtos\responses\AppReimbursementResponse.class
 com\revature\foundation\dtos\requests\NewReimbursementRequest.class
 com\revature\foundation\servlets\UsersServlet.class
+com\revature\foundation\dtos\requests\AllReimbursementsByIdRequest.class
 com\revature\foundation\models\Reimbursements.class
+com\revature\foundation\dtos\responses\AllReimbursementsByIdResponse.class
 com\revature\foundation\dtos\responses\Principal.class
 com\revature\foundation\util\AppState.class
+com\revature\foundation\config\AppConfig.class
 com\revature\foundation\util\Bytea.class
 com\revature\foundation\util\connectionFactory.class
 com\revature\foundation\dtos\responses\ResourceCreationResponse.class
@@ -36,6 +39,7 @@ com\revature\foundation\util\exceptions\DataSourceException.class
 com\revature\foundation\dtos\responses\AppUserResponse.class
 com\revature\foundation\servlets\UserMakeReimbursementServlet.class
 com\revature\foundation\util\exceptions\InvalidRequestException.class
+com\revature\foundation\servlets\AllReimbursementsByIdServlet.class
 com\revature\foundation\dtos\requests\UpdatedReimbursementRequest.class
 com\revature\foundation\util\exceptions\AuthenticationException.class
 com\revature\foundation\services\ReimbursementService.class

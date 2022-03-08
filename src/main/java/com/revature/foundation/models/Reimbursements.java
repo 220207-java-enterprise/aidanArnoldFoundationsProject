@@ -34,6 +34,16 @@ public class Reimbursements {
     }
 
     public Reimbursements(int amount, String submitted, String resolved, String description, Bytea receipt, String paymentId, String authorId, String resolverId, ReimbursementStatuses statusId, ReimbursementTypes typeId) {
+        this.amount = amount;
+        this.submitted = submitted;
+        this.resolved = resolved;
+        this.description = description;
+        this.receipt = receipt;
+        this.paymentId = paymentId;
+        this.authorId = authorId;
+        this.resolverId = resolverId;
+        this.statusId = statusId;
+        this.typeId = typeId;
     }
 
     public String getReimbId() {

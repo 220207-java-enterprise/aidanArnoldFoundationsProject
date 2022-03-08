@@ -5,6 +5,7 @@ import com.revature.foundation.models.Users;
 import com.revature.foundation.util.connectionFactory;
 import com.revature.foundation.util.exceptions.DataSourceException;
 import com.revature.foundation.util.exceptions.ResourcePersistenceException;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
     // TODO attempt to centralize exception handling in service layer
+@Repository
     public class UsersDAO implements CrudDAO<Users> {
 
         private final String rootSelect = "SELECT " +

@@ -5,14 +5,13 @@ import com.revature.foundation.util.Bytea;
 import com.revature.foundation.util.connectionFactory;
 import com.revature.foundation.util.exceptions.DataSourceException;
 import com.revature.foundation.util.exceptions.ResourcePersistenceException;
+import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class ReimbursementsDAO implements CrudDAO<Reimbursements> {
 
     private final String rootSelect = "SELECT " +
@@ -22,6 +21,8 @@ public class ReimbursementsDAO implements CrudDAO<Reimbursements> {
             "ON er.type_id = et.type_id " +
             "JOIN ers_reimbursement_statuses ers " +
             "ON er.status_id = ers.status_id ";
+
+    private static final String getAllRootSelect = "SELECT * FROM ERS_REIMBURSEMENTS WHERE AUTHOR_ID = ";
 
 
 
@@ -41,22 +42,23 @@ public class ReimbursementsDAO implements CrudDAO<Reimbursements> {
 
     @Override
     public void save(Reimbursements newObject) {
+
         try (Connection conn = connectionFactory.getInstance().getConnection()) {
 
             conn.setAutoCommit(false);
-            PreparedStatement pstmt3 = conn.prepareStatement("INSERT INTO ers_reimbursements VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement pstmt3 = conn.prepareStatement("INSERT INTO ers_reimbursements VALUES (?, ?, ?, ?, ?, null, ?, ?, ?, ?, ?)");
             pstmt3.setString(1, newObject.getReimbId());
             pstmt3.setDouble(2, newObject.getAmount());
-            pstmt3.setString(3, newObject.getSubmitted());
-            pstmt3.setString(4, newObject.getResolved());
+            pstmt3.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+            pstmt3.setTimestamp(4, null);
             pstmt3.setString(5, newObject.getDescription());
-            pstmt3.setBinaryStream(6, newObject.getReceipt().getBinaryStream());
-            pstmt3.setString(7, newObject.getPaymentId());
-            pstmt3.setString(8, newObject.getAuthorId());
-            pstmt3.setString(9, newObject.getResolverId());
-            pstmt3.setString(10, newObject.getStatusId().getStatus());
-            pstmt3.setString(11, newObject.getTypeId().getType());
-
+//            pstmt3.setString(, null);
+            pstmt3.setString(6, newObject.getPaymentId());
+            pstmt3.setString(7, newObject.getAuthorId());
+            pstmt3.setString(8, newObject.getResolverId());
+            pstmt3.setString(9, newObject.getStatusId().getStatusId());
+            pstmt3.setString(10, newObject.getTypeId().getTypeId());
+            System.out.println(pstmt3);
             int rowsInserted3 = pstmt3.executeUpdate();
             if (rowsInserted3 != 1) {
                 conn.rollback();
@@ -103,6 +105,65 @@ public class ReimbursementsDAO implements CrudDAO<Reimbursements> {
 
     }
 
+//    public static Reimbursements getByIdOk(String id) {
+//        Reimbursements reimbursements = null;
+//
+//        try (Connection conn = connectionFactory.getInstance().getConnection()) {
+//
+//            PreparedStatement pstmt = conn.prepareStatement(rootSelect + "WHERE reimb_id = ?");
+//            pstmt.setString(1, id);
+//
+//            ResultSet rs = pstmt.executeQuery();
+//            if (rs.next()) {
+//                reimbursements = new Reimbursements();
+//
+//                reimbursements.setReimbId(rs.getString("reimb_id"));
+//                reimbursements.setAmount(rs.getInt("amount"));
+//                reimbursements.setSubmitted(rs.getString("submitted"));
+//                reimbursements.setResolved(rs.getString("resolved"));
+//                reimbursements.setDescription(rs.getString("description"));
+////                reimbursements.setReceipt(new Bytea(rs.getBytes("receipt")));
+//                reimbursements.setPaymentId(rs.getString("payment_id"));
+//                reimbursements.setAuthorId(rs.getString("author_id"));
+//                reimbursements.setResolverId(rs.getString("resolver_id"));
+//                reimbursements.setStatusId(new ReimbursementStatuses(rs.getString("status_id"), rs.getString("status")));
+//                reimbursements.setTypeId(new ReimbursementTypes(rs.getString("type_id"), rs.getString("type")));
+//            }
+//
+//        } catch (SQLException e) {
+//            throw new DataSourceException(e);
+//        }
+//        return reimbursements;
+//
+//    }
+
+
+    public static List<Reimbursements> getAllById(String id) throws SQLException {
+        List<Reimbursements> reimbursements1 = new ArrayList<>();
+        try (Connection conn = connectionFactory.getInstance().getConnection()) {
+
+            conn.setAutoCommit(false);
+            PreparedStatement pstmt4 = conn.prepareStatement(getAllRootSelect + "?");
+            pstmt4.setString(1, id);
+            ResultSet rs = pstmt4.executeQuery();
+            while (rs.next()) {
+                Reimbursements reimbursement = new Reimbursements();
+                reimbursement.setReimbId(rs.getString("reimb_id"));
+                reimbursement.setAmount(rs.getInt("amount"));
+                reimbursement.setSubmitted(rs.getString("submitted"));
+                reimbursement.setResolved(rs.getString("resolved"));
+                reimbursement.setDescription(rs.getString("description"));
+//                reimbursemets.setReceipt(new Bytea(rs.getBytes("receipt")));
+                reimbursement.setPaymentId(rs.getString("payment_id"));
+                reimbursement.setAuthorId(rs.getString("author_id"));
+                reimbursement.setResolverId(rs.getString("resolver_id"));
+                reimbursement.setStatusId(new ReimbursementStatuses(rs.getString("status_id"), rs.getString("status")));
+                reimbursement.setTypeId(new ReimbursementTypes(rs.getString("type_id"), rs.getString("type")));
+                reimbursements1.add(reimbursement);
+            }
+            return reimbursements1;
+        }
+    }
     @Override
     public List<Reimbursements> getAll() {
         List<Reimbursements> reimbursements = new ArrayList<>();

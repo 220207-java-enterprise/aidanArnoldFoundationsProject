@@ -51,18 +51,6 @@ public class UserMakeReimbursementServlet extends HttpServlet {
                     reimbursementService.create(newReimbursementRequest);
             resp.setStatus(201);
             resp.setContentType("application/json");
-//            String payload = mapper.writeValueAsString(new ResourceCreationResponse(newReimbursement.getReimbId()));
-//            respWriter.write(payload);
-
-//            String header = String.valueOf(tokenService.extractRequesterDetails(req.getHeader("Authorization")));
-//            StringBuilder userIdFromHeader = new StringBuilder();
-//            int count = 0;
-//            for (String s:header.split("\'(,\')*")) {
-//                if(count == 5) {
-//                    userIdFromHeader.append(s);
-//                }
-//                count++;
-//            }
 
 
         } catch (InvalidRequestException | DatabindException e) {
@@ -71,6 +59,7 @@ public class UserMakeReimbursementServlet extends HttpServlet {
         } catch (ResourceConflictException e) {
             resp.setStatus(409); // CONFLICT
         } catch (Exception e) {
+            e.printStackTrace();
             resp.setStatus(500);
         }
 
