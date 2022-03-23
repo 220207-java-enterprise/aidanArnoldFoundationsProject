@@ -42,13 +42,8 @@ public class UpdatedReimbursementServlet extends HttpServlet {
 
         try {
 
-//                LoginRequest loginRequest = mapper.readValue(req.getInputStream(), LoginRequest.class);
-//                Principal principal = new Principal(userService.login(loginRequest));
-
             UpdatedReimbursementRequest updatedReimbursementRequest = mapper.readValue(req.getInputStream(), UpdatedReimbursementRequest.class);
-//                System.out.println(updatedUserRequest);
             Principal principal = new Principal(reimbursementService.updatedReimbursement(updatedReimbursementRequest));
-//                System.out.println(principal);
             UpdatedReimbursementResponse updatedReimbursementResponse = new UpdatedReimbursementResponse(reimbursementService.updatedReimbursement(updatedReimbursementRequest));
 
 
